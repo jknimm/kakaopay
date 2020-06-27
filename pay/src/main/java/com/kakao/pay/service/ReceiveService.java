@@ -90,7 +90,7 @@ public class ReceiveService {
     }
 
 
-    public boolean isNotExpired(String token){
+    public boolean isExpired(String token){
         Optional<SendMoney> optionalSendMoney = sendRepository.findById(token);
         if(optionalSendMoney.isPresent()) {
 
@@ -113,9 +113,9 @@ public class ReceiveService {
 
             // 현재시간 > 만료시간
             if(nowTime.compareTo(expireTime) > 0 ) {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         return true;
@@ -151,7 +151,7 @@ public class ReceiveService {
         }
 
         //뿌린 건은 10분간만 유효합니다. 뿌린지 10분이 지난 요청에 대해서는 받기실패 응답이 내려가야 합니다.
-        if(isNotExpired(token)){
+        if(isExpired(token)){
             throw new APIValidationException(APIErrorType.EXPIRED);
         }
 
