@@ -1,0 +1,29 @@
+server:
+  port: 8080
+spring:
+  profiles:
+    active: production
+  jpa:
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /db
+  datasource:
+    #url: jdbc:h2:mem~/pay
+    url: jdbc:h2:mem:pay
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+---
+spring:
+  profiles: production
+  flyway:
+    locations: classpath:db/migration/production
+
+---
+spring:
+  profiles: test
+  flyway:
+    locations: classpath:db/migration/test
